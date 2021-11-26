@@ -1,0 +1,156 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    char SSN[12];
+    char name[20];
+    char dept[25];
+    char designation[25];
+    float salary;
+    char phoneno[10];
+    struct node*llink;
+    struct node*rlink;
+};
+typedef struct node DNODE;
+DNODE*readdata()
+{
+    DNODE *temp;
+    temp=(DNODE*)malloc(sizeof(DNODE));
+    printf("Enter SSN\n");
+    scanf("%s",temp->SSN);
+            printf("Enter name\n");
+            scanf("%s",temp->name);
+                          printf("Enter the department \n");
+                          scanf("%s",temp->dept);
+    printf("Enter designation\n");
+    scanf("%s",temp->designation);
+               printf("Enter the salary\n");
+               scanf("%f",&temp->salary);
+                            printf("Enter phone no\n");
+                             scanf("%s",temp->phoneno);
+    temp->llink=NULL;
+    temp->rlink=NULL;
+    return(temp);
+}
+DNODE* insertfront(DNODE* first)
+{
+    DNODE*t;
+    t=readdata();
+    if (first==NULL)
+        return(t);
+    t->rlink=first;
+    first->llink=t;
+    return(t);
+}
+DNODE* insertend(DNODE*first)
+{
+    DNODE *temp,*cur;
+    temp=readdata();
+    if(first==NULL)
+        return(temp);
+    cur=first;
+    while(cur->rlink!=NULL)
+        cur=cur->rlink;
+    cur->rlink=temp;
+    temp->llink=cur;
+    return(first);
+}
+DNODE* deletefront(DNODE *first)
+{
+    DNODE* cur;
+    if(first==NULL)
+    {
+        printf("Node empty\n");
+        return(first);
+    }
+    if(first->rlink==NULL)
+    {
+        cur=first;
+        first=NULL;
+        free(cur);
+        return(first);
+    }
+    cur=first;
+    first=first->rlink;
+    free(cur);
+    return(first);
+}
+DNODE* deleteend(DNODE *first)
+{
+    DNODE*cur,*prev;
+    if(first==NULL)
+    {
+        printf("NODE empty\n");
+        return(first);
+    }
+    if(first->rlink==NULL)
+    {
+        cur=first;
+        first=NULL;
+        free(cur);
+        return(first);
+    }
+    cur=first;
+    while(cur->rlink!=NULL)
+        cur=cur->rlink;
+    prev=cur->llink;
+    prev->rlink=NULL;
+    free(cur);
+    return(first);
+}
+void display(DNODE*first)
+{
+    DNODE *cur=first;
+    int count;
+    if(first==NULL)
+        printf("List empty\n");
+    else
+    {
+        printf("SSN \t name \t dept \tdesignation \tsalary \tphone no \n");
+        while(cur!=NULL)
+
+        {
+                      printf("%s\t",cur->SSN);
+                        printf("%s\t",cur->name);
+                            printf("%s\t",cur->dept);
+                                printf("%s\t",cur->designation);
+                                  printf("\t%.2f\t",cur->salary);
+                                    printf("%s\n",cur->phoneno);
+            cur=cur->rlink;
+        }
+    }
+}
+void main()
+{
+    DNODE *first=NULL;
+    int n,i,ch;
+    printf("Enter the no of employee\n");
+    scanf("%d",&n);
+
+    for(i=1; i<=n; i++)
+        first=insertend(first);
+    while(1)
+    {
+        printf("\n1.insertfront\n2.insertend\n3.deletefront\n4.deleteend\n5.display\n6.exit\n");
+        printf("Enter the choice\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+        case 1:
+                                       first=insertfront(first);
+                                          break;
+        case 2:
+                                         first=insertend(first);
+                                             break;
+        case 3:
+                                      first=deletefront(first);
+                                               break;
+        case 4:
+                                          first=deleteend(first);
+                                                     break;
+        case 5:
+                                        display(first);
+                                                  break;
+        case 6:
+                                            exit(0);
+        }              }                        }
